@@ -16,7 +16,7 @@ const RootLayout = ({ children }) => {
 
   return (
     <div className="flex h-screen w-full bg-gradient-to-br from-purple-700 via-pink-600 to-orange-500 text-white">
-      {!isSessionPage && (
+      {!isSessionPage && user && (
         <aside className="w-64 bg-black bg-opacity-30 overflow-y-auto flex-shrink-0">
           <div className="p-6">
             <Link to="/" className="text-2xl font-bold text-white">Kodigo Music</Link>
@@ -50,7 +50,7 @@ const RootLayout = ({ children }) => {
         </aside>
       )}
       <div className="flex-1 flex flex-col overflow-hidden">
-        {!isSessionPage && (
+        {!isSessionPage && user && (
           <header className="bg-black bg-opacity-30 p-4 flex justify-between items-center">
             <div className="flex space-x-4">
               <button className="bg-black bg-opacity-50 rounded-full p-1">&lt;</button>
@@ -70,7 +70,7 @@ const RootLayout = ({ children }) => {
           </header>
         )}
         <main className="flex-1 overflow-y-auto w-full">
-          {children || <Outlet />}
+          {children}
         </main>
       </div>
     </div>

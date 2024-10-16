@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '@/firebase/config';
+import ReCAPTCHA from "react-google-recaptcha";
 
 export function RegisterForm() {
   const [email, setEmail] = useState('');
@@ -9,14 +10,23 @@ export function RegisterForm() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const recaptchaRef = useRef();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
+
+    const recaptchaValue = recaptchaRef.current.getValue();
+    if (!recaptchaValue) {
+      setError("Please complete the reCAPTCHA");
+      return;
+    }
+
     if (password !== confirmPassword) {
       setError("Passwords don't match");
       return;
     }
+
     try {
       await createUserWithEmailAndPassword(auth, email, password);
       navigate('/');
@@ -60,6 +70,10 @@ export function RegisterForm() {
           className="w-full px-3 py-2 bg-white bg-opacity-20 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
         />
       </div>
+      <ReCAPTCHA
+        ref={recaptchaRef}
+        sitekey="6Le5ymIqAAAAAKG-pMOEyjWx797qOAMsdrrDoaxe"
+      />
       {error && <p className="text-red-300 text-sm">{error}</p>}
       <button type="submit" className="w-full bg-orange-500 text-white py-3 rounded-full font-bold hover:bg-orange-600 transition duration-300">
         Sign Up
