@@ -12,9 +12,11 @@ function App() {
     <AuthProvider>
       <RootLayout>
         <Routes>
-          <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
-          <Route path="/home" element={<ProtectedRoute><Home /></ProtectedRoute>} />
-          <Route path="/search" element={<ProtectedRoute><Search /></ProtectedRoute>} />
+          <Route element={<ProtectedRoute />}>
+            <Route path="/" element={<Home />} />
+            <Route path="/home" element={<Home />} />
+            <Route path="/search" element={<Search />} />
+          </Route>
           <Route path="/session" element={<Session />} />
           <Route path="/login" element={<Session mode="login" />} />
           <Route path="/register" element={<Session mode="register" />} />
